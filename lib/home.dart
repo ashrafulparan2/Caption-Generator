@@ -41,6 +41,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -56,7 +57,7 @@ class _HomeState extends State<Home> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: 40,
+                height: 10,
               ),
               Text(
                 'Caption  Generator',
