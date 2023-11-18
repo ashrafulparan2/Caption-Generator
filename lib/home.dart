@@ -82,7 +82,8 @@ class _HomeState extends State<Home> {
                 height: MediaQuery.of(context).size.height - 250,
                 padding: EdgeInsets.all(30.0),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  // color: Colors.white,
+                  color: Color(0xFFFFFFFA),
                   borderRadius: BorderRadius.circular(30.0),
                   boxShadow: [
                     BoxShadow(
