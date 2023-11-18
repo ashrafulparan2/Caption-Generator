@@ -15,6 +15,14 @@ class MyApp extends StatelessWidget {
       title: 'Caption Generator',
       home: MySplash(),
       debugShowCheckedModeBanner: false,
+      theme: ThemeData.dark().copyWith(
+        primaryColor: Color(0xFF0b111e),
+        appBarTheme: AppBarTheme(
+          backgroundColor:
+              Color(0xFF0b111e), // Set the app bar background color
+        ),
+        scaffoldBackgroundColor: Color(0xFF0b111e),
+      ),
     );
   }
 }
