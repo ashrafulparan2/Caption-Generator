@@ -123,7 +123,7 @@ class _HomeState extends State<Home> {
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 24, vertical: 17),
                                       decoration: BoxDecoration(
-                                        color: Color(0xFF56ab2f),
+                                        color: Color(0xFF093A3E),
                                         borderRadius: BorderRadius.circular(6),
                                       ),
                                       child: Text(
@@ -155,7 +155,7 @@ class _HomeState extends State<Home> {
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 24, vertical: 17),
                                       decoration: BoxDecoration(
-                                        color: Color(0xFF56ab2f),
+                                        color: Color(0xFF7C7287),
                                         borderRadius: BorderRadius.circular(6),
                                       ),
                                       child: Text(
@@ -187,7 +187,7 @@ class _HomeState extends State<Home> {
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 24, vertical: 17),
                                       decoration: BoxDecoration(
-                                        color: Color(0xFF56ab2f),
+                                        color: Color(0xFF202A25),
                                         borderRadius: BorderRadius.circular(6),
                                       ),
                                       child: Text(
