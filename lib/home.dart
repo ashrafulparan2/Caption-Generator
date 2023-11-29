@@ -1,7 +1,8 @@
 import 'dart:io';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -16,25 +17,93 @@ class _HomeState extends State<Home> {
   final picker = ImagePicker();
   String resultText = "Fetching Response...";
 
-  pickImage() async {
-    var image = await picker.pickImage(source: ImageSource.camera);
-    if (image == null) {
-      return null;
+  Future<Map<String, dynamic>> queryImageCaption(File image) async {
+    const String apiURL =
+        "https://api-inference.huggingface.co/models/Salesforce/blip-image-captioning-large";
+    const String apiToken = "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";
+
+    Uri uri = Uri.parse(apiURL);
+    Map<String, String> headers = {"Authorization": "Bearer $apiToken"};
+
+    try {
+      List<int> data = await image.readAsBytes();
+      var response = await http.post(uri, headers: headers, body: data);
+
+      if (response.statusCode == 200) {
+        // Parse the response body as JSON
+        dynamic jsonResponse = json.decode(response.body);
+
+        // Check if the response is a list
+        if (jsonResponse is List<dynamic>) {
+          // Handle list response accordingly, for example, return the first item
+          String x = json.encode(jsonResponse[0]);
+          String y = "";
+          for (int i = 19; i < x.length - 2; i++) {
+            y += x[i];
+          }
+          return {'caption': jsonResponse.isNotEmpty ? y : 'No caption'};
+        } else if (jsonResponse is Map<String, dynamic>) {
+          // Handle map response
+          return jsonResponse;
+        } else {
+          throw Exception('Unexpected response format');
+        }
+      } else {
+        throw Exception('Failed to load data: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      return {'error': 'Failed to load data'};
+    }
+  }
+
+  // pickImage() async {
+  //   var image = await picker.pickImage(source: ImageSource.camera);
+  //   if (image == null) {
+  //     return null;
+  //   }
+  //   setState(() {
+  //     _image = File(image.path);
+  //     _loading = false;
+  //   });
+  // }
+  Future<void> pickImage(ImageSource source) async {
+    var pickedImage = await picker.pickImage(source: ImageSource.camera);
+    if (pickedImage == null) {
+      return;
     }
     setState(() {
-      _image = File(image.path);
+      _image = File(pickedImage.path);
       _loading = false;
+    });
+
+    // Query image caption when image is selected
+    Map<String, dynamic> output = await queryImageCaption(_image!);
+
+    setState(() {
+      resultText = output['error'] != null
+          ? 'Error: ${output['error']}'
+          : 'Caption: ${output['caption']}';
     });
   }
 
-  pickgalleryImage() async {
-    var image = await picker.pickImage(source: ImageSource.gallery);
-    if (image == null) {
-      return null;
+  Future<void> pickgalleryImage(ImageSource source) async {
+    var pickedImage = await picker.pickImage(source: source);
+    if (pickedImage == null) {
+      return;
     }
     setState(() {
-      _image = File(image.path);
+      _image = File(pickedImage.path);
       _loading = false;
+    });
+
+    // Query image caption when image is selected
+    Map<String, dynamic> output = await queryImageCaption(_image!);
+
+    setState(() {
+      resultText = output['error'] != null
+          ? 'Error: ${output['error']}'
+          : 'Caption: ${output['caption']}';
     });
   }
 
@@ -149,7 +218,10 @@ class _HomeState extends State<Home> {
                                     child: Column(
                                       children: [
                                         GestureDetector(
-                                          onTap: pickgalleryImage,
+                                          onTap: () async {
+                                            await pickgalleryImage(
+                                                ImageSource.gallery);
+                                          },
                                           child: Container(
                                             // width: MediaQuery.of(context).size.width -
                                             //     300,
@@ -182,7 +254,10 @@ class _HomeState extends State<Home> {
                                     child: Column(
                                       children: [
                                         GestureDetector(
-                                          onTap: pickImage,
+                                          onTap: () async {
+                                            await pickgalleryImage(
+                                                ImageSource.camera);
+                                          },
                                           child: Container(
                                             // width: MediaQuery.of(context).size.width -
                                             //     300,
