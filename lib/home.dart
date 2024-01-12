@@ -1,6 +1,8 @@
+
 import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 
@@ -167,185 +169,221 @@ class _HomeState extends State<Home> {
                     Center(
                       child: _loading
                           ? Container(
-                              width: 500,
+                        width: 500,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Container(
+                              width: 100,
+                              child: Image.asset('images/notepad.png'),
+                            ),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
                               child: Column(
                                 children: [
-                                  SizedBox(
-                                    height: 50,
-                                  ),
-                                  Container(
-                                    width: 100,
-                                    child: Image.asset('images/notepad.png'),
-                                  ),
-                                  SizedBox(
-                                    height: 30,
-                                  ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Column(
-                                      children: [
-                                        // GestureDetector(
-                                        //   onTap: () {},
-                                        //   child: Container(
-                                        //     // width: MediaQuery.of(context).size.width -
-                                        //     //     300,
-                                        //
-                                        //     alignment: Alignment.center,
-                                        //     padding: EdgeInsets.symmetric(
-                                        //         horizontal: 24, vertical: 17),
-                                        //     decoration: BoxDecoration(
-                                        //       color: Color(0xFF093A3E),
-                                        //       borderRadius:
-                                        //           BorderRadius.circular(6),
-                                        //     ),
-                                        //     child: Text(
-                                        //       'Live Camera',
-                                        //       style: TextStyle(
-                                        //         color: Colors.white,
-                                        //         fontSize: 18,
-                                        //       ),
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 30,
-                                  ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Column(
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () async {
-                                            await pickgalleryImage(
-                                                ImageSource.gallery);
-                                          },
-                                          child: Container(
-                                            // width: MediaQuery.of(context).size.width -
-                                            //     300,
-
-                                            alignment: Alignment.center,
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 24, vertical: 17),
-                                            decoration: BoxDecoration(
-                                              color: Color(0xFF7C7287),
-                                              borderRadius:
-                                                  BorderRadius.circular(6),
-                                            ),
-                                            child: Text(
-                                              'From Gallery',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 30,
-                                  ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Column(
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () async {
-                                            await pickgalleryImage(
-                                                ImageSource.camera);
-                                          },
-                                          child: Container(
-                                            // width: MediaQuery.of(context).size.width -
-                                            //     300,
-
-                                            alignment: Alignment.center,
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 24, vertical: 17),
-                                            decoration: BoxDecoration(
-                                              color: Color(0xFF202A25),
-                                              borderRadius:
-                                                  BorderRadius.circular(6),
-                                            ),
-                                            child: Text(
-                                              'Take Photo',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                  // GestureDetector(
+                                  //   onTap: () {},
+                                  //   child: Container(
+                                  //     // width: MediaQuery.of(context).size.width -
+                                  //     //     300,
+                                  //
+                                  //     alignment: Alignment.center,
+                                  //     padding: EdgeInsets.symmetric(
+                                  //         horizontal: 24, vertical: 17),
+                                  //     decoration: BoxDecoration(
+                                  //       color: Color(0xFF093A3E),
+                                  //       borderRadius:
+                                  //           BorderRadius.circular(6),
+                                  //     ),
+                                  //     child: Text(
+                                  //       'Live Camera',
+                                  //       style: TextStyle(
+                                  //         color: Colors.white,
+                                  //         fontSize: 18,
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ],
                               ),
-                            )
-                          : Container(
-                              padding: EdgeInsets.only(top: 10),
+                            ),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
                               child: Column(
                                 children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    height: 200,
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          child: IconButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                _loading = true;
-                                                resultText =
-                                                    "Fetching response...";
-                                              });
-                                            },
-                                            icon: Icon(
-                                              Icons.arrow_back_ios,
-                                              color: Colors.black,
-                                            ),
-                                          ),
+                                  GestureDetector(
+                                    onTap: () async {
+                                      await pickgalleryImage(
+                                          ImageSource.gallery);
+                                    },
+                                    child: Container(
+                                      // width: MediaQuery.of(context).size.width -
+                                      //     300,
+
+                                      alignment: Alignment.center,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 24, vertical: 17),
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFF7C7287),
+                                        borderRadius:
+                                        BorderRadius.circular(6),
+                                      ),
+                                      child: Text(
+                                        'From Gallery',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
                                         ),
-                                        Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width -
-                                              205,
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: Image.file(
-                                              _image!,
-                                              fit: BoxFit.fill,
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Container(
-                                    child: Text(
-                                      resultText,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14,
                                       ),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              child: Column(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () async {
+                                      await pickgalleryImage(
+                                          ImageSource.camera);
+                                    },
+                                    child: Container(
+                                      // width: MediaQuery.of(context).size.width -
+                                      //     300,
+
+                                      alignment: Alignment.center,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 24, vertical: 17),
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFF202A25),
+                                        borderRadius:
+                                        BorderRadius.circular(6),
+                                      ),
+                                      child: Text(
+                                        'Take Photo',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                          : Container(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              height: 200,
+                              child: Row(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    child: IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _loading = true;
+                                          resultText =
+                                          "Fetching response...";
+                                        });
+                                      },
+                                      icon: Icon(
+                                        Icons.arrow_back_ios,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: MediaQuery.of(context)
+                                        .size
+                                        .width -
+                                        205,
+                                    child: ClipRRect(
+                                      borderRadius:
+                                      BorderRadius.circular(10),
+                                      child: Image.file(
+                                        _image!,
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+
+                            Container(
+                              padding: EdgeInsets.all(16.0),
+                              margin: EdgeInsets.all(16.0),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [Colors.blue, Colors.indigo],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                borderRadius: BorderRadius.circular(12.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    resultText,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 24,
+                                      fontFamily: 'Pacifico',
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  FaIcon(
+                                    FontAwesomeIcons.fistRaised,
+                                    color: Colors.white,
+                                    size: 40,
+                                  ),
+                                ],
+                              ),
+                            ),
+
+
+
+
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
