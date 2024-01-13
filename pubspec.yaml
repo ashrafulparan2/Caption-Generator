@@ -43,6 +43,7 @@ dependencies:
   get: ^4.6.6
   camera: ^0.10.5+5
   font_awesome_flutter: ^10.6.0
+  flutter_tts: ^3.8.5
 
 dev_dependencies:
   flutter_test:

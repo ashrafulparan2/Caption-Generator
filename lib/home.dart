@@ -1,13 +1,13 @@
-
 import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_tts/flutter_tts.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -18,6 +18,7 @@ class _HomeState extends State<Home> {
   File? _image;
   final picker = ImagePicker();
   String resultText = "Fetching Response...";
+  FlutterTts flutterTts = FlutterTts();
 
   Future<Map<String, dynamic>> queryImageCaption(File image) async {
     const String apiURL =
@@ -32,12 +33,9 @@ class _HomeState extends State<Home> {
       var response = await http.post(uri, headers: headers, body: data);
 
       if (response.statusCode == 200) {
-        // Parse the response body as JSON
         dynamic jsonResponse = json.decode(response.body);
 
-        // Check if the response is a list
         if (jsonResponse is List<dynamic>) {
-          // Handle list response accordingly, for example, return the first item
           String x = json.encode(jsonResponse[0]);
           String y = "";
           for (int i = 19; i < x.length - 2; i++) {
@@ -45,7 +43,6 @@ class _HomeState extends State<Home> {
           }
           return {'caption': jsonResponse.isNotEmpty ? y : 'No caption'};
         } else if (jsonResponse is Map<String, dynamic>) {
-          // Handle map response
           return jsonResponse;
         } else {
           throw Exception('Unexpected response format');
@@ -59,16 +56,6 @@ class _HomeState extends State<Home> {
     }
   }
 
-  // pickImage() async {
-  //   var image = await picker.pickImage(source: ImageSource.camera);
-  //   if (image == null) {
-  //     return null;
-  //   }
-  //   setState(() {
-  //     _image = File(image.path);
-  //     _loading = false;
-  //   });
-  // }
   Future<void> pickImage(ImageSource source) async {
     var pickedImage = await picker.pickImage(source: ImageSource.camera);
     if (pickedImage == null) {
@@ -79,7 +66,6 @@ class _HomeState extends State<Home> {
       _loading = false;
     });
 
-    // Query image caption when image is selected
     Map<String, dynamic> output = await queryImageCaption(_image!);
 
     setState(() {
@@ -89,7 +75,7 @@ class _HomeState extends State<Home> {
     });
   }
 
-  Future<void> pickgalleryImage(ImageSource source) async {
+  Future<void> pickGalleryImage(ImageSource source) async {
     var pickedImage = await picker.pickImage(source: source);
     if (pickedImage == null) {
       return;
@@ -99,7 +85,6 @@ class _HomeState extends State<Home> {
       _loading = false;
     });
 
-    // Query image caption when image is selected
     Map<String, dynamic> output = await queryImageCaption(_image!);
 
     setState(() {
@@ -109,10 +94,27 @@ class _HomeState extends State<Home> {
     });
   }
 
+  Future<void> _speakCaption() async {
+    if (resultText != null && resultText.isNotEmpty) {
+      await flutterTts.setLanguage("en-US");
+      await flutterTts.setSpeechRate(0.5);
+      await flutterTts.speak(resultText);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(
+          'Caption  Generator',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 35,
+          ),
+        ),
+      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -130,14 +132,7 @@ class _HomeState extends State<Home> {
               SizedBox(
                 height: 10,
               ),
-              Text(
-                'Caption  Generator',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 35,
-                ),
-              ),
+
               Text(
                 'Image to Text Generator',
                 style: TextStyle(
@@ -150,10 +145,9 @@ class _HomeState extends State<Home> {
                 height: 30,
               ),
               Container(
-                height: MediaQuery.of(context).size.height - 250,
+                height: MediaQuery.of(context).size.height - 200,
                 padding: EdgeInsets.all(30.0),
                 decoration: BoxDecoration(
-                  // color: Colors.white,
                   color: Color(0xFFFFFFFA),
                   borderRadius: BorderRadius.circular(30.0),
                   boxShadow: [
@@ -169,7 +163,7 @@ class _HomeState extends State<Home> {
                     Center(
                       child: _loading
                           ? Container(
-                        width: 500,
+                        width: 600,
                         child: Column(
                           children: [
                             SizedBox(
@@ -183,51 +177,26 @@ class _HomeState extends State<Home> {
                               height: 30,
                             ),
                             Container(
-                              width: MediaQuery.of(context).size.width,
+                              width:
+                              MediaQuery.of(context).size.width,
                               child: Column(
-                                children: [
-                                  // GestureDetector(
-                                  //   onTap: () {},
-                                  //   child: Container(
-                                  //     // width: MediaQuery.of(context).size.width -
-                                  //     //     300,
-                                  //
-                                  //     alignment: Alignment.center,
-                                  //     padding: EdgeInsets.symmetric(
-                                  //         horizontal: 24, vertical: 17),
-                                  //     decoration: BoxDecoration(
-                                  //       color: Color(0xFF093A3E),
-                                  //       borderRadius:
-                                  //           BorderRadius.circular(6),
-                                  //     ),
-                                  //     child: Text(
-                                  //       'Live Camera',
-                                  //       style: TextStyle(
-                                  //         color: Colors.white,
-                                  //         fontSize: 18,
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                ],
+                                children: [],
                               ),
                             ),
                             SizedBox(
                               height: 30,
                             ),
                             Container(
-                              width: MediaQuery.of(context).size.width,
+                              width:
+                              MediaQuery.of(context).size.width,
                               child: Column(
                                 children: [
                                   GestureDetector(
                                     onTap: () async {
-                                      await pickgalleryImage(
+                                      await pickGalleryImage(
                                           ImageSource.gallery);
                                     },
                                     child: Container(
-                                      // width: MediaQuery.of(context).size.width -
-                                      //     300,
-
                                       alignment: Alignment.center,
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 24, vertical: 17),
@@ -252,18 +221,16 @@ class _HomeState extends State<Home> {
                               height: 30,
                             ),
                             Container(
-                              width: MediaQuery.of(context).size.width,
+                              width:
+                              MediaQuery.of(context).size.width,
                               child: Column(
                                 children: [
                                   GestureDetector(
                                     onTap: () async {
-                                      await pickgalleryImage(
+                                      await pickGalleryImage(
                                           ImageSource.camera);
                                     },
                                     child: Container(
-                                      // width: MediaQuery.of(context).size.width -
-                                      //     300,
-
                                       alignment: Alignment.center,
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 24, vertical: 17),
@@ -295,7 +262,7 @@ class _HomeState extends State<Home> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                               ),
-                              height: 200,
+                              height: 350,
                               child: Row(
                                 crossAxisAlignment:
                                 CrossAxisAlignment.start,
@@ -333,9 +300,8 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                             SizedBox(
-                              height: 20,
+                              height: 5,
                             ),
-
                             Container(
                               padding: EdgeInsets.all(16.0),
                               margin: EdgeInsets.all(16.0),
@@ -356,31 +322,33 @@ class _HomeState extends State<Home> {
                                 ],
                               ),
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment:
+                                MainAxisAlignment.center,
                                 children: [
                                   Text(
                                     resultText,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 24,
+                                      fontSize: 18,
                                       fontFamily: 'Pacifico',
                                       fontWeight: FontWeight.normal,
                                     ),
                                   ),
-                                  SizedBox(height: 10),
+                                  SizedBox(height: 5),
                                   FaIcon(
                                     FontAwesomeIcons.fistRaised,
                                     color: Colors.white,
-                                    size: 40,
+                                    size: 15,
+                                  ),
+                                  SizedBox(height: 10),
+                                  ElevatedButton(
+                                    onPressed: () => _speakCaption(),
+                                    child: Text('Read Caption'),
                                   ),
                                 ],
                               ),
                             ),
-
-
-
-
                           ],
                         ),
                       ),
