@@ -40,7 +40,7 @@ The home page serves as the main navigation point for users.
 ### 3. Caption Generation Page
 This page allows users to upload images and generates descriptive captions for them.
 
-![Caption Generation Page](./images/caption_generation_page.png)
+
 
 ### 4. Text-to-Voice
 - The application converts generated captions to speech.
