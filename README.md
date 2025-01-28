@@ -64,6 +64,7 @@ The system implementation consists of the following steps:
 3. **Flutter App Integration**: Seamless integration of the model into a Flutter-based application.
 4. **App Implementation**: Developing the application with focus on accessibility.
 5. **Testing**: Ensuring the application meets performance and usability standards.
+6. **Deployment and Feedback**: Deploying the app on multiple platforms, collecting user feedback, and iterating for continuous improvement.
 
 
 
